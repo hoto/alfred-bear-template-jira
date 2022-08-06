@@ -1,24 +1,18 @@
-# {{JIRA_PREFIX}}{{answer}} {{title}}
+# {{ticketId}} {{title}}
 ~ by *{{creator.name}}* [{{type.name}}]
 ---
-#work/ticket/{date:yyyy}/{date:MM} #work/state/started
+#work/jira/{ticketId}} #work/jira/{date:YYYY}/{date:MM}/{date::DD}
 ---
-::Link::[{{JIRA_PREFIX}}{{answer}}]({{JIRA_URL}}/browse/{{JIRA_PREFIX}}{{answer}})
+[{{ticketId}}]({{JIRA_URL}}/browse/{{ticketId}})
 
 ## Description
 {{description}}
 
-## Acceptance Criteria
-{{acceptanceCriteria}}
-
-- [ ] Are these clear and unambiguous?
 ---
-## Brainstorming
+## TODO
 
 
-
-
-## Any Complications?
+## Notes
 
 
 ---

@@ -1,34 +1,19 @@
 const rp = require('request-promise');
 const J2M = require('j2m');
+const secrets = require('./secret.js');
 
-/**
- * File is in gitignore to save secrets.
- * It has the form
- * 
- * ```js
- * module.exports = {
- *  API_TOKEN: XXX
- * }
- * ```
- */
-const secret = require('./secret');
-
-const getData = async variables => {
-
-    const prefix = variables.JIRA_PREFIX.endsWith('-') ? variables.JIRA_PREFIX : `${variables.JIRA_PREFIX}-`;
-
+const fetchTicket = async variables => {
+    const ticketId = variables.answer;
     const options = {
-        uri: `${variables.JIRA_URL}/rest/api/latest/issue/${prefix}${variables.answer}`,
+        uri: `${variables.JIRA_URL}/rest/api/latest/issue/${ticketId}`,
         json: true
     }
 
-    const ticket = await rp(options).auth(variables.JIRA_USER, secret.API_TOKEN);
+    const ticket = await rp(options).auth(variables.JIRA_USER, secrets.API_TOKEN);
     const fields = ticket.fields;
 
-    const acceptanceCriteria = fields[variables.ACCEPTANCE_CRITERIA] || '';
-
     return {
-        JIRA_PREFIX: prefix,
+        ticketId,
         labels: fields.labels,
         creator: {
             name: fields.creator.displayName,
@@ -41,7 +26,6 @@ const getData = async variables => {
         },
         project: fields.project.name,
         description: J2M.toM(fields.description).trim(),
-        acceptanceCriteria: J2M.toM(acceptanceCriteria).replace(/(?:^)\*/, "- [ ]").replace(/(?:\n)\*/g, "\n- [ ]").trim(),
         title: fields.summary.trim(),
         comments: fields.comment.comments ? fields.comment.comments.map(c => {
             return {
@@ -52,4 +36,4 @@ const getData = async variables => {
     }
 }
 
-module.exports = getData;
+module.exports = fetchTicket;
