@@ -1,16 +1,16 @@
-const rp = require('request-promise');
-const J2M = require('j2m');
-const secrets = require('./secret.js');
+const rp = require('request-promise')
+const J2M = require('j2m')
+const secrets = require('./secret.js')
 
 const fetchTicket = async variables => {
-    const ticketId = variables.answer;
+    const ticketId = variables.answer
     const options = {
         uri: `${variables.JIRA_URL}/rest/api/latest/issue/${ticketId}`,
         json: true
     }
-
-    const ticket = await rp(options).auth(variables.JIRA_USER, secrets.API_TOKEN);
-    const fields = ticket.fields;
+    const ticket = await rp(options).auth(variables.JIRA_USER, secrets.API_TOKEN)
+    const fields = ticket.fields
+    const description = J2M.toM(fields.description).trim()
 
     return {
         ticketId,
@@ -25,15 +25,15 @@ const fetchTicket = async variables => {
             isSubtask: fields.issuetype.subtask
         },
         project: fields.project.name,
-        description: J2M.toM(fields.description).trim(),
+        description,
         title: fields.summary.trim(),
         comments: fields.comment.comments ? fields.comment.comments.map(c => {
             return {
                 author: c.author.displayName,
-                text: J2M.toM(c.body).trim()
+                text: c.body
             }
         }) : ''
     }
 }
 
-module.exports = fetchTicket;
+module.exports = fetchTicket

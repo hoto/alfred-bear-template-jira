@@ -1,23 +1,22 @@
 # {{ticketId}} {{title}}
----
-#work/jira/{ticketId}} #work/jira/{date:YYYY}/{date:MM}/{date::DD}
+#work/jira/{{ticketId}} #work/jira/{date:YYYY}/{date:MM}/{date:dd}
 ---
 [{{ticketId}}]({{JIRA_URL}}/browse/{{ticketId}}) ~ by *{{creator.name}}* [{{type.name}}]
 
-## Description
+# Description
 {{description}}
 
 ---
-## TODO
+# TODO
 
 
-## Notes
+# Notes
 
 
 ---
-## Comments
+# Comments
 {{#each comments}}
-```md
+```
 {{text}}
 ```
 ~ by *{{author}}*
