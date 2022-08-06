@@ -3,7 +3,7 @@ const J2M = require('j2m')
 const secrets = require('./secret.js')
 
 const fetchTicket = async variables => {
-    const ticketId = variables.answer
+    const ticketId = variables.answer.toUpperCase()
     const options = {
         uri: `${variables.JIRA_URL}/rest/api/latest/issue/${ticketId}`,
         json: true
