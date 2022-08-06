@@ -1,9 +1,8 @@
 # {{ticketId}} {{title}}
-~ by *{{creator.name}}* [{{type.name}}]
 ---
 #work/jira/{ticketId}} #work/jira/{date:YYYY}/{date:MM}/{date::DD}
 ---
-[{{ticketId}}]({{JIRA_URL}}/browse/{{ticketId}})
+[{{ticketId}}]({{JIRA_URL}}/browse/{{ticketId}}) ~ by *{{creator.name}}* [{{type.name}}]
 
 ## Description
 {{description}}
