@@ -1,10 +1,10 @@
 # {{ticketId}} {{title}}
-#work/jira/{{ticketId}} #work/jira/{date:YYYY}/{date:MM}/{date:dd}
+#work/jira/{{ticketId}} #work/{date:YYYY}/{date:MM}/{date:dd} #work/in-progress
 ---
 [{{ticketId}}]({{JIRA_URL}}/browse/{{ticketId}}) ~ by *{{creator.name}}* [{{type.name}}]
 
 # Description
-{{description}}
+{{{description}}}
 
 ---
 # TODO
@@ -16,9 +16,7 @@
 ---
 # Comments
 {{#each comments}}
-```
-{{text}}
-```
-~ by *{{author}}*
+{{{text}}}
+> ~ by *{{author}}*
 
 {{/each}}

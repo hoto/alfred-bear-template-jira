@@ -10,8 +10,8 @@ const fetchTicket = async variables => {
     }
     const ticket = await rp(options).auth(variables.JIRA_USER, secrets.API_TOKEN)
     const fields = ticket.fields
-    const description = J2M.toM(fields.description).trim()
-
+    const description = J2M.toM(fields.description).trim().replace(/^/gm, '> ')
+    const toComment = (comment) => J2M.toM(comment).trim().replace(/^/gm, '> ')
     return {
         ticketId,
         labels: fields.labels,
@@ -30,7 +30,7 @@ const fetchTicket = async variables => {
         comments: fields.comment.comments ? fields.comment.comments.map(c => {
             return {
                 author: c.author.displayName,
-                text: c.body
+                text: toComment(c.body)
             }
         }) : ''
     }
