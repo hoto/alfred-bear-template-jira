@@ -2,6 +2,9 @@ const rp = require('request-promise')
 const J2M = require('j2m')
 const secrets = require('./secret.js')
 
+const toQuote = (text) => text.trim() ? text.trim().replace(/^/gm, '> ') : text
+const toComment = (comment) => toQuote(J2M.toM(comment))
+
 const fetchTicket = async variables => {
     const ticketId = variables.answer.toUpperCase()
     const options = {
@@ -10,8 +13,7 @@ const fetchTicket = async variables => {
     }
     const ticket = await rp(options).auth(variables.JIRA_USER, secrets.API_TOKEN)
     const fields = ticket.fields
-    const description = J2M.toM(fields.description).trim().replace(/^/gm, '> ')
-    const toComment = (comment) => J2M.toM(comment).trim().replace(/^/gm, '> ')
+    const description = toQuote(J2M.toM(fields.description?fields.description:''))
     return {
         ticketId,
         labels: fields.labels,
